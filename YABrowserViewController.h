@@ -8,7 +8,7 @@
  
  This one handles various annoyances with WKWebView, such as opening non-HTTP URLs and opening target=_blank links. It includes a history, visible by long-pressing the back button.
  
- If you set the browser view controller's restorationIdentifier, its title and current page's URL are preserved and restored. Unfortunately it does not seem possible to preserve the browser history.
+ If you set the browser view controller's restorationIdentifier, its title and current page's URL are preserved and restored. Unfortunately it does not seem to be possible to preserve the browser history.
  */
 IB_DESIGNABLE
 @interface YABrowserViewController : UIViewController <UIViewControllerRestoration, WKNavigationDelegate, WKUIDelegate>

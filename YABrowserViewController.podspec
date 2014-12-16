@@ -10,4 +10,5 @@ Pod::Spec.new do |s|
   s.source_files    = 'YABrowserViewController.[hm]'
   s.framework       = 'WebKit'
   s.resource_bundle = { "YABrowserViewController" => "Images/*" }
+  s.requires_arc = true
 end

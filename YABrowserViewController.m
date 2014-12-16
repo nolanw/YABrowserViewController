@@ -332,6 +332,17 @@ static void CommonInit(YABrowserViewController *self)
     return _progressView;
 }
 
+- (void)presentError:(NSError *)error
+{
+    if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+        return;
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Network Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"OK", @"YABrowserViewController", @"OK button for error alert") style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == KVOContext) {
@@ -467,10 +478,15 @@ static void * KVOContext = &KVOContext;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error
+{
+    [self presentError:error];
+}
+
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Network Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-    [self presentViewController:alert animated:YES completion:nil];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self presentError:error];
 }
 
 #pragma mark - WKUIDelegate

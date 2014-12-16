@@ -4,6 +4,8 @@
 
 @interface YABrowserViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (readonly, nonatomic) NSBundle *resourceBundle;
+
 // Button items that always appear.
 @property (strong, nonatomic) UIBarButtonItem *backButton;
 @property (strong, nonatomic) UIBarButtonItem *forwardButton;
@@ -89,6 +91,16 @@ static void CommonInit(YABrowserViewController *self)
     [presentingViewController presentViewController:navigation animated:animated completion:completion];
 }
 
+- (NSBundle *)resourceBundle
+{
+    NSBundle *thisBundle = [NSBundle bundleForClass:[YABrowserViewController class]];
+    NSURL *podResourceURL = [thisBundle URLForResource:@"YABrowserViewController" withExtension:@"bundle"];
+    if (podResourceURL) {
+        return [NSBundle bundleWithURL:podResourceURL];
+    }
+    return thisBundle;
+}
+
 - (void)reloadTitle
 {
     if ([self isViewLoaded] && self.webView.title.length > 0) {
@@ -150,7 +162,7 @@ static void CommonInit(YABrowserViewController *self)
 - (UIBarButtonItem *)backButton
 {
     if (!_backButton) {
-        NSBundle *bundle = [NSBundle bundleForClass:[YABrowserViewController class]];
+        NSBundle *bundle = [self resourceBundle];
         _backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back" inBundle:bundle compatibleWithTraitCollection:nil]
                                          landscapeImagePhone:[UIImage imageNamed:@"back-landscape" inBundle:bundle compatibleWithTraitCollection:nil]
                                                        style:UIBarButtonItemStylePlain
@@ -202,7 +214,7 @@ static void CommonInit(YABrowserViewController *self)
 - (UIBarButtonItem *)forwardButton
 {
     if (!_forwardButton) {
-        NSBundle *bundle = [NSBundle bundleForClass:[YABrowserViewController class]];
+        NSBundle *bundle = [self resourceBundle];
         _forwardButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"forward" inBundle:bundle compatibleWithTraitCollection:nil]
                                             landscapeImagePhone:[UIImage imageNamed:@"forward-landscape" inBundle:bundle compatibleWithTraitCollection:nil]
                                                           style:UIBarButtonItemStylePlain

@@ -20,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C2434D71A40A9D100DC8EA4 /* YABrowserViewController.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = YABrowserViewController.podspec; sourceTree = "<group>"; };
 		1C6460DC1A3F5402002F5CEE /* YABrowserViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YABrowserViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C6460E01A3F5402002F5CEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C6460E11A3F5402002F5CEE /* YABrowserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YABrowserViewController.h; sourceTree = "<group>"; };
@@ -52,6 +53,7 @@
 				1C6460E01A3F5402002F5CEE /* Info.plist */,
 				1C6460E11A3F5402002F5CEE /* YABrowserViewController.h */,
 				1C6460F81A3F550E002F5CEE /* YABrowserViewController.m */,
+				1C2434D71A40A9D100DC8EA4 /* YABrowserViewController.podspec */,
 				1C6460DD1A3F5402002F5CEE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -190,7 +192,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -235,7 +237,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -260,7 +262,7 @@
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 2;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
@@ -277,7 +279,7 @@
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 2;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";

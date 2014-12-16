@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name            = 'YABrowserViewController'
-  s.version         = '0.1'
+  s.version         = '0.1.1'
   s.license         = 'Public domain'
   s.homepage        = 'https://github.com/nolanw/YABrowserViewController'
   s.authors         = { 'Nolan Waite' => 'nolan@nolanw.ca' }

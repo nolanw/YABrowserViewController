@@ -11,6 +11,8 @@
 @property (strong, nonatomic) UIBarButtonItem *stopButton;
 @property (strong, nonatomic) UIBarButtonItem *refreshButton;
 
+@property (strong, nonatomic) UIProgressView *progressView;
+
 // Only appears when presented modally via -presentFromViewController:animated:completion:.
 @property (strong, nonatomic) UIBarButtonItem *closeButton;
 
@@ -54,6 +56,7 @@ static void CommonInit(YABrowserViewController *self)
         [self.webView removeObserver:self forKeyPath:@"title" context:KVOContext];
         [self.webView removeObserver:self forKeyPath:@"URL" context:KVOContext];
         [self.webView removeObserver:self forKeyPath:@"loading" context:KVOContext];
+        [self.webView removeObserver:self forKeyPath:@"estimatedProgress" context:KVOContext];
     }
 }
 
@@ -309,6 +312,14 @@ static void CommonInit(YABrowserViewController *self)
     self.forwardButton.enabled = [self isViewLoaded] ? self.webView.canGoForward : YES;
 }
 
+- (UIProgressView *)progressView
+{
+    if (!_progressView) {
+        _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+    }
+    return _progressView;
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == KVOContext) {
@@ -319,6 +330,18 @@ static void CommonInit(YABrowserViewController *self)
             _URLString = nil;
         } else if ([keyPath isEqualToString:@"loading"]) {
             [self reloadBarButtonItems];
+        } else if ([keyPath isEqualToString:@"estimatedProgress"]) {
+            self.progressView.alpha = 1;
+            BOOL animated = self.progressView.progress < self.webView.estimatedProgress;
+            [self.progressView setProgress:self.webView.estimatedProgress animated:animated];
+            
+            if (self.webView.estimatedProgress >= 1) {
+                [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0 options:0 animations:^{
+                    self.progressView.alpha = 0;
+                } completion:^(BOOL finished) {
+                    self.progressView.progress = 0;
+                }];
+            }
         }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -349,6 +372,7 @@ static void * KVOContext = &KVOContext;
     [self.webView addObserver:self forKeyPath:@"title" options:0 context:KVOContext];
     [self.webView addObserver:self forKeyPath:@"URL" options:0 context:KVOContext];
     [self.webView addObserver:self forKeyPath:@"loading" options:0 context:KVOContext];
+    [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:0 context:KVOContext];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -362,12 +386,25 @@ static void * KVOContext = &KVOContext;
     
     self.toolbarWasHidden = self.navigationController.toolbarHidden;
     [self.navigationController setToolbarHidden:(self.toolbarItems.count == 0) animated:YES];
+    [self.navigationController.navigationBar addSubview:self.progressView];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    CGRect frame = self.progressView.frame;
+    frame.origin = CGPointMake(0, CGRectGetMaxY(navigationBar.bounds) - CGRectGetHeight(frame));
+    frame.size.width = CGRectGetWidth(navigationBar.bounds);
+    self.progressView.frame = frame;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     self.navigationController.toolbarHidden = self.toolbarWasHidden;
+    [self.progressView removeFromSuperview];
 }
 
 // If the navigation controller hides bars on swipe, these two overrides make that work nicely.
